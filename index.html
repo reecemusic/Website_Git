@@ -2,61 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Your Site Name</title>
-  <meta name="description" content="Replace this with a short description of your site.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reece Williams | Pianist</title>
+  <meta name="description" content="Reece Williams is a pianist available for recitals, private events, teaching, and session work.">
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="home">
   <header class="site-header">
-    <div class="wrap">
-      <a class="logo" href="index.html">Your Site Name</a>
-      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">Menu</button>
-      <nav class="site-nav" aria-label="Main">
-        <a href="index.html" aria-current="page">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
+    <div class="wrap header-inner">
+      <a class="logo" href="index.html">Reece Williams<span>Pianist</span></a>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html" class="is-active">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="events.html">Live Events</a>
+        <a href="recordings.html">Recordings</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact Me</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="wrap">
-        <p class="eyebrow">Welcome</p>
-        <h1>A clear headline about what you do</h1>
-        <p class="lede">One or two sentences that explain who this site is for and why they should stay.</p>
-        <a class="button" href="contact.html">Get in touch</a>
+    <section class="hero hero-photo">
+      <div class="wrap hero-copy">
+        <p class="kicker">Pianist</p>
+        <h1>Reece Williams</h1>
+        <p class="lede">Recital, accompaniment and event performance. Clear programmes, considered sound, and music chosen for the room.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="events.html">Upcoming dates</a>
+          <a class="btn btn-ghost" href="contact.html">Enquire</a>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <div class="wrap">
-        <h2>What we offer</h2>
-        <div class="cards">
-          <article class="card">
-            <h3>Service one</h3>
-            <p>Replace this text with a short description of the first thing you offer.</p>
-          </article>
-          <article class="card">
-            <h3>Service two</h3>
-            <p>Replace this text with a short description of the second thing you offer.</p>
-          </article>
-          <article class="card">
-            <h3>Service three</h3>
-            <p>Replace this text with a short description of the third thing you offer.</p>
-          </article>
+        <div class="section-head">
+          <h2>Next on the stand</h2>
+          <a href="events.html">All dates</a>
         </div>
+        <article class="event">
+          <p class="meta">Replace with your next date</p>
+          <h3>Solo recital — programme title</h3>
+          <p>Venue name, city. Add door time, ticket link, and whether the evening is public or private.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+      <div class="wrap grid-3">
+        <article class="card">
+          <p class="meta">Listen</p>
+          <h3>Recordings</h3>
+          <p>Studio takes, live clips and scores-in-progress.</p>
+          <p><a href="recordings.html">Go to recordings</a></p>
+        </article>
+        <article class="card">
+          <p class="meta">Work with</p>
+          <h3>Services</h3>
+          <p>Weddings and dinners, residencies, teaching, accompaniment, session piano.</p>
+          <p><a href="services.html">See what I offer</a></p>
+        </article>
+        <article class="card">
+          <p class="meta">On the page</p>
+          <h3>About</h3>
+          <p>Training, repertoire and how a programme is put together.</p>
+          <p><a href="about.html">Read the biography</a></p>
+        </article>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="wrap">
-      <p>&copy; <span id="year"></span> Your Site Name. All rights reserved.</p>
+    <div class="wrap footer-inner">
+      <p>&copy; <span id="year"></span> Reece Williams. All rights reserved.</p>
+      <p><a href="mailto:info@reecemusic.com">info@reecemusic.com</a></p>
     </div>
   </footer>
-
   <script src="js/main.js"></script>
 </body>
 </html>
