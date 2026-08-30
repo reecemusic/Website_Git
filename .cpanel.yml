@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/reecemus/public_html/
+    - /bin/cp -f index.html about.html services.html contact.html $DEPLOYPATH
+    - /bin/cp -rf css js images $DEPLOYPATH
