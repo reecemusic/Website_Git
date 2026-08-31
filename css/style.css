@@ -498,6 +498,41 @@ a {
   display: block;
 }
 
+.tickettailor-embed {
+  margin: 1rem 0 2.5rem;
+  width: 100%;
+}
+
+.tickettailor-embed .tt-widget,
+.tickettailor-embed .tt-widget > div,
+.tickettailor-embed .tt-widget iframe,
+.tickettailor-embed .tt-widget script {
+  width: 100% !important;
+  min-height: 1100px !important;
+}
+
+.tickettailor-embed .tt-widget,
+.tickettailor-embed .tt-widget * {
+  font-size: 1.08rem !important;
+  line-height: 1.6 !important;
+  font-family: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif !important;
+}
+
+.tickettailor-embed .tt-widget a,
+.tickettailor-embed .tt-widget button,
+.tickettailor-embed .tt-widget input,
+.tickettailor-embed .tt-widget select,
+.tickettailor-embed .tt-widget label {
+  font-size: 1.08rem !important;
+}
+
+.tickettailor-embed iframe {
+  width: 100%;
+  min-height: 1100px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
 .about-image img {
   width: 100%;
   height: 100%;
@@ -526,13 +561,14 @@ a {
   background: var(--paper);
   border: 1px solid var(--line);
   padding: 1.2rem 1.25rem;
+  font-size: 1.1rem;
 }
 
 .meta {
   color: var(--gold-deep);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   margin: 0 0 0.4rem;
 }
 
@@ -540,6 +576,14 @@ a {
 .record h3,
 .card h3 {
   margin: 0 0 0.45rem;
+  font-size: 1.4rem;
+}
+
+.event p,
+.record p,
+.card p {
+  font-size: 1.08rem;
+  line-height: 1.7;
 }
 
 .quote {
