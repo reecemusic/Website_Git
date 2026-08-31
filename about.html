@@ -4,41 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About — Your Site Name</title>
+  <link rel="icon" type="image/png" href="favicon.png?v=3">
   <meta name="description" content="Learn more about Your Site Name.">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="site-header">
-    <div class="wrap">
-      <a class="logo" href="index.html">Your Site Name</a>
-      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">Menu</button>
-      <nav class="site-nav" aria-label="Main">
+    <div class="wrap header-inner">
+      <a class="logo" href="index.html">Reece Williams Music</a>
+      <nav class="nav" aria-label="Main">
         <a href="index.html">Home</a>
-        <a href="about.html" aria-current="page">About</a>
-        <a href="contact.html">Contact</a>
+        <a href="about.html" class="is-active">About Me</a>
+        <a href="events.html">Live Events</a>
+        <a href="recordings.html">Recordings</a>
+        <a href="services.html">Services</a>
+        <a href="artwork.html">Artwork</a>
+        <a href="contact.html">Contact Me</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="page-intro">
+    <section class="section">
       <div class="wrap">
-        <p class="eyebrow">About</p>
-        <h1>Who we are</h1>
-        <p class="lede">Write a short introduction here. Keep it simple: who you are, where you are based, and what you care about.</p>
+        <div class="about-layout">
+          <div class="about-image about-hero-image">
+            <img src="images/about/about-01.jpg" alt="About image 1">
+          </div>
+          <div class="about-content">
+            <h2>About Reece</h2>
+            <p>Established 1991 in an English seaside town, I've been fortunate enough to travel some of the world pursuing a enjoyment for engineering whilst managing to haul a piano with me.</p>
+            <p>I began learning the keyboard, and then piano. Having always had a curiosity for stringed instruments I thought I'd try to keep it simple and started with the Ukulele, eventually falling in love with that instrument too.</p>
+            <p>I currently find myself in the middle east and shall be releasing demo music soon.</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section">
-      <div class="wrap narrow">
-        <h2>Our story</h2>
-        <p>Replace this paragraph with your story. A few honest sentences work better than a long company history.</p>
-        <p>Add another paragraph if you need it. You can also list values, experience, or the area you serve.</p>
-        <ul class="plain-list">
-          <li>Value or fact one</li>
-          <li>Value or fact two</li>
-          <li>Value or fact three</li>
-        </ul>
+      <div class="wrap">
+        <div class="about-image about-full-image">
+          <img src="images/about/about-03.jpg" alt="About image 3">
+        </div>
       </div>
     </section>
   </main>

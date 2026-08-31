@@ -4,18 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact — Your Site Name</title>
+  <link rel="icon" type="image/png" href="favicon.png?v=3">
   <meta name="description" content="Contact Your Site Name.">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="site-header">
-    <div class="wrap">
-      <a class="logo" href="index.html">Your Site Name</a>
-      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">Menu</button>
-      <nav class="site-nav" aria-label="Main">
+    <div class="wrap header-inner">
+      <a class="logo" href="index.html">Reece Williams Music</a>
+      <nav class="nav" aria-label="Main">
         <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html" aria-current="page">Contact</a>
+        <a href="about.html">About Me</a>
+        <a href="events.html">Live Events</a>
+        <a href="recordings.html">Recordings</a>
+        <a href="services.html">Services</a>
+        <a href="artwork.html">Artwork</a>
+        <a href="contact.html" class="is-active">Contact Me</a>
       </nav>
     </div>
   </header>
@@ -23,22 +27,19 @@
   <main>
     <section class="page-intro">
       <div class="wrap">
-        <p class="eyebrow">Contact</p>
         <h1>Get in touch</h1>
-        <p class="lede">Replace the details below with your real email, phone, and location.</p>
       </div>
     </section>
 
     <section class="section">
-      <div class="wrap contact-grid">
-        <div>
-          <h2>Details</h2>
-          <p><strong>Email:</strong> <a href="mailto:you@yourdomain.ae">you@yourdomain.ae</a></p>
-          <p><strong>Phone:</strong> <a href="tel:+971500000000">+971 50 000 0000</a></p>
-          <p><strong>Location:</strong> City, UAE</p>
+      <div class="wrap contact-layout">
+        <div class="contact-details">
+          <p><strong>Email:</strong> <a href="mailto:info@reecemusic.com">info@reecemusic.com</a></p>
+          <p><strong>Phone:</strong> <a href="tel:+971584646882">+971 58 46 4882</a></p>
+          <p><strong>Location:</strong> Abu Dhabi, United Arab Emirates</p>
         </div>
 
-        <form class="contact-form" action="mailto:you@yourdomain.ae" method="post" enctype="text/plain">
+        <form class="contact-form" action="mailto:info@reecemusic.com" method="post" enctype="text/plain">
           <label>
             Name
             <input type="text" name="name" required>
@@ -52,8 +53,15 @@
             <textarea name="message" rows="6" required></textarea>
           </label>
           <button class="button" type="submit">Send message</button>
-          <p class="form-note">This simple form opens the visitor’s email app. Later you can replace it with a proper form service if you want messages delivered to your inbox automatically.</p>
         </form>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="contact-image-full">
+          <img src="images/contact/contact-01.jpg" alt="Contact image">
+        </div>
       </div>
     </section>
   </main>
