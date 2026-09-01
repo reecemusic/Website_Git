@@ -8,15 +8,20 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="interior">
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="logo" href="index.html">Reece Williams Music</a>
-      <nav class="nav" aria-label="Main">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="site-nav" class="nav" aria-label="Main">
         <a href="index.html">Home</a>
         <a href="about.html">About Me</a>
         <a href="events.html">Live Events</a>
-        <a href="recordings.html">Recordings</a>
+        <a href="recordings.html">Projects</a>
         <a href="services.html">Services</a>
         <a href="artwork.html" class="is-active">Artwork</a>
         <a href="contact.html">Contact Me</a>
@@ -31,7 +36,7 @@
         <p>A curated collection of original artworks. Each piece is unique and available for purchase.</p>
 
         <div class="grid-4">
-          <article class="artwork-item">
+          <article class="artwork-item" data-title="Artwork 1" data-price="$10">
             <figure class="artwork-figure">
               <img src="images/art/artwork-01.jpg" alt="Artwork 1">
             </figure>
@@ -40,7 +45,7 @@
             </div>
           </article>
 
-          <article class="artwork-item">
+          <article class="artwork-item" data-title="Cosmic Performance" data-price="$10">
             <figure class="artwork-figure">
               <img src="images/art/artwork-02.jpg" alt="Artwork 2">
             </figure>
@@ -50,7 +55,7 @@
             </div>
           </article>
 
-          <article class="artwork-item">
+          <article class="artwork-item" data-title="Desert Sonata" data-price="$10">
             <figure class="artwork-figure">
               <img src="images/art/artwork-03.jpg" alt="Artwork 3">
             </figure>
@@ -60,7 +65,7 @@
             </div>
           </article>
 
-          <article class="artwork-item">
+          <article class="artwork-item" data-title="Joyful Keys" data-price="$10">
             <figure class="artwork-figure">
               <img src="images/art/artwork-04.jpg" alt="Artwork 4">
             </figure>
@@ -70,7 +75,7 @@
             </div>
           </article>
 
-          <article class="artwork-item">
+          <article class="artwork-item" data-title="Beach Harmony" data-price="$10">
             <figure class="artwork-figure">
               <img src="images/art/artwork-05.jpg" alt="Artwork 5">
             </figure>
@@ -80,7 +85,7 @@
             </div>
           </article>
 
-          <article class="artwork-item">
+          <article class="artwork-item" data-title="Universe's Echo" data-price="$10">
             <figure class="artwork-figure">
               <img src="images/art/artwork-06.jpg" alt="Artwork 6">
             </figure>
@@ -90,7 +95,7 @@
             </div>
           </article>
 
-          <article class="artwork-item">
+          <article class="artwork-item" data-title="Celestial Notes" data-price="$10">
             <figure class="artwork-figure">
               <img src="images/art/artwork-07.jpg" alt="Artwork 7">
             </figure>
@@ -100,7 +105,7 @@
             </div>
           </article>
 
-          <article class="artwork-item">
+          <article class="artwork-item" data-title="Digital Rhythm" data-price="$10">
             <figure class="artwork-figure">
               <img src="images/art/artwork-08.jpg" alt="Artwork 8">
             </figure>
@@ -114,10 +119,25 @@
     </section>
   </main>
 
+  <div class="lightbox" id="art-lightbox" aria-hidden="true">
+    <div class="lightbox-backdrop" data-close="true"></div>
+    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+      <button class="lightbox-close" type="button" aria-label="Close artwork view">×</button>
+      <img id="lightbox-image" src="" alt="Expanded artwork view">
+      <div class="lightbox-meta">
+        <h2 id="lightbox-title">Artwork</h2>
+        <p id="lightbox-price">$10</p>
+        <button class="lightbox-back" type="button">Back to artwork</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="wrap footer-inner">
       <p>&copy; 2026 Reece Williams. All rights reserved.</p>
     </div>
   </footer>
+
+  <script src="js/main.js"></script>
 </body>
 </html>

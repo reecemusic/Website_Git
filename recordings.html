@@ -8,15 +8,20 @@
   <meta name="description" content="Recordings and performance films by pianist Reece Williams.">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="interior">
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="logo" href="index.html">Reece Williams Music</a>
-      <nav class="nav" aria-label="Main">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="site-nav" class="nav" aria-label="Main">
         <a href="index.html">Home</a>
         <a href="about.html">About Me</a>
         <a href="events.html">Live Events</a>
-        <a href="recordings.html" class="is-active">Recordings</a>
+        <a href="recordings.html" class="is-active">Projects</a>
         <a href="services.html">Services</a>
         <a href="artwork.html">Artwork</a>
         <a href="contact.html">Contact Me</a>
@@ -26,32 +31,56 @@
 
   <main class="section">
     <div class="wrap">
-      <p class="kicker">Listen</p>
-      <h1>Recordings</h1>
-      <p class="lede">Use this page as a listening room. One strong film is better than eight silent placeholders.</p>
+      <p class="kicker">Projects</p>
+      <h1>Projects</h1>
 
-      <div class="grid-2">
-        <article class="record">
-          <p class="meta">Featured</p>
-          <h3>Piece title — composer</h3>
-          <p>Paste a YouTube or Vimeo embed here later. Until then, describe the take and link out.</p>
-          <p><a href="#">Watch or listen</a></p>
-        </article>
-        <article class="record">
-          <p class="meta">Studio</p>
-          <h3>Single or album title</h3>
-          <p>Spotify, Apple Music or Bandcamp link. Add the year and whether it is solo or collaborative.</p>
-          <p><a href="#">Open on a streaming service</a></p>
-        </article>
+      <div class="project-layout">
+        <aside class="project-sidebar">
+          <nav aria-label="Project sections">
+            <button class="project-jump is-active" type="button" data-target="project-piano">Reece Piano</button>
+            <button class="project-jump" type="button" data-target="project-ukulele">Reece Ukulele</button>
+            <button class="project-jump" type="button" data-target="project-electronica">Reece Electronica</button>
+          </nav>
+        </aside>
+
+        <div class="project-list">
+          <article id="project-piano" class="project-item is-open">
+            <button class="project-toggle" type="button" aria-expanded="true">
+              <span>Reece Piano</span>
+            </button>
+            <div class="project-content">
+              <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/bRUzXkX8eEs" title="Reece Piano project video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
+              <p>Ambient piano work with expressive melodic playing and intimate arrangements.</p>
+            </div>
+          </article>
+
+          <article id="project-ukulele" class="project-item is-open">
+            <button class="project-toggle" type="button" aria-expanded="true">
+              <span>Reece Ukulele</span>
+            </button>
+            <div class="project-content">
+              <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dDXQ_UBIzpI?list=RDdDXQ_UBIzpI" title="Reece Ukulele project video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
+              <p>Warm, rhythmic ukulele-led arrangements with a relaxed, spacious feel.</p>
+            </div>
+          </article>
+
+          <article id="project-electronica" class="project-item is-open">
+            <button class="project-toggle" type="button" aria-expanded="true">
+              <span>Reece Electronica</span>
+            </button>
+            <div class="project-content">
+              <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/PUKPWZ648mM" title="Reece Electronica project video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
+              <p>Electronic textures and pulse-driven soundscapes shaped for modern listening.</p>
+            </div>
+          </article>
+        </div>
       </div>
-
-      <h2>What to put here</h2>
-      <ul>
-        <li>One recital film with decent piano sound</li>
-        <li>One shorter clip for phones (under three minutes)</li>
-        <li>A streaming link if you have a release</li>
-        <li>A note on piano: Steinway, Yamaha, or “varies by venue”</li>
-      </ul>
     </div>
   </main>
 
