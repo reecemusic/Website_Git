@@ -14,13 +14,15 @@ $name = trim((string) ($_POST['name'] ?? ''));
 $email = trim((string) ($_POST['email'] ?? ''));
 $message = trim((string) ($_POST['message'] ?? ''));
 $website = trim((string) ($_POST['website'] ?? ''));
+$human = ($_POST['human'] ?? '') === 'yes';
+$humanConfirmation = !isset($_POST['human-confirmation']);
 
 if ($website !== '') {
     echo json_encode(['success' => true]);
     exit;
 }
 
-if ($name === '' || $email === '' || $message === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if ($name === '' || $email === '' || $message === '' || !$human || !$humanConfirmation || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(422);
     echo json_encode(['error' => 'Please provide a valid name, email address, and message.']);
     exit;

@@ -6,6 +6,10 @@
   <title>Contact Reece Williams</title>
   <link rel="icon" type="image/png" href="favicon.png?v=3">
   <meta name="description" content="Get in touch with Reece Williams about performances, recordings, and collaborations.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact Reece Williams">
+  <meta property="og:description" content="Get in touch with Reece Williams about performances, recordings, and collaborations.">
+  <meta property="og:image" content="images/reece.jpg">
   <link rel="stylesheet" href="css/style.css?v=20260903">
 </head>
 <body class="interior">
@@ -30,14 +34,15 @@
   </header>
 
   <main>
-    <section class="page-intro">
+    <section class="page-intro contact-page-intro">
       <div class="wrap">
         <h1>Get in touch</h1>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section contact-section">
       <div class="wrap contact-layout">
+        <img class="contact-section-image" src="images/contact/contact-01.jpg" alt="Reece Williams playing piano beside a window in Abu Dhabi">
         <div class="contact-details">
           <p><strong>Email:</strong> <a href="mailto:info@reecemusic.com">info@reecemusic.com</a></p>
           <p><strong>Phone:</strong> <a href="tel:+971584646882">+971 58 46 4882</a></p>
@@ -61,18 +66,20 @@
             Message
             <textarea name="message" rows="6" required></textarea>
           </label>
+          <label class="contact-check">
+            <input type="checkbox" name="human" value="yes" required>
+            <span>Tick if you are not a robot</span>
+          </label>
+          <label class="contact-check">
+            <input type="checkbox" name="human-confirmation" value="yes" checked>
+            <span>Untick if you are not a robot</span>
+          </label>
           <button class="button" type="submit">Send message</button>
+          <p class="form-status" id="contact-status" role="status" aria-live="polite"></p>
         </form>
       </div>
     </section>
 
-    <section class="section">
-      <div class="wrap">
-        <div class="contact-image-full">
-          <img src="images/contact/contact-01.jpg" alt="Contact image">
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">

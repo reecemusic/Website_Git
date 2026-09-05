@@ -18,6 +18,15 @@ html {
   scroll-behavior: smooth;
 }
 
+:target {
+  scroll-margin-top: 6rem;
+}
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+
 body {
   margin: 0;
   font-family: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
@@ -89,6 +98,10 @@ a {
 
 .page-intro {
   padding: 2.25rem 0 0.75rem;
+}
+
+.contact-page-intro {
+  padding-bottom: 0;
 }
 
 /* Homepage photo background */
@@ -179,6 +192,12 @@ a {
   display: grid;
   gap: 0.75rem;
   transform: translateY(-50%);
+}
+
+.hero-spotify {
+  width: 100%;
+  height: 352px;
+  overflow: hidden;
 }
 
 .hero-layout {
@@ -307,6 +326,7 @@ a {
   text-transform: uppercase;
   padding: 0.35rem 0;
   border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .nav a + a {
@@ -414,6 +434,11 @@ a {
   font-size: 0.95rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
 }
 
 .btn-primary {
@@ -433,6 +458,10 @@ a {
 /* Sections */
 .section {
   padding: 4.5rem 0;
+}
+
+.contact-section {
+  padding-top: 0.75rem;
 }
 
 .section h1 {
@@ -592,20 +621,49 @@ a {
 }
 
 .contact-layout {
+  position: relative;
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: clamp(2rem, 7vw, 6rem);
   align-items: start;
+  min-height: 590px;
+  padding: clamp(2rem, 6vw, 5rem);
+  overflow: hidden;
+  background: var(--bg-deep);
+  isolation: isolate;
+}
+
+.contact-layout::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(18, 15, 13, 0.92) 0%, rgba(18, 15, 13, 0.78) 45%, rgba(18, 15, 13, 0.35) 100%);
+}
+
+.contact-section-image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 58%;
 }
 
 .contact-details {
   margin-top: 0.25rem;
+  color: #fbf7f0;
 }
 
 .contact-details p {
   font-size: clamp(1.15rem, 2.2vw, 1.6rem);
   line-height: 1.4;
   margin: 0 0 0.8rem;
+}
+
+.contact-details a {
+  color: #f0d49c;
 }
 
 .contact-form {
@@ -621,7 +679,7 @@ a {
   display: block;
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--ink);
+  color: #fbf7f0;
 }
 
 .contact-form input,
@@ -629,7 +687,7 @@ a {
   width: 100%;
   margin-top: 0.45rem;
   padding: 0.9rem 1rem;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(251, 247, 240, 0.42);
   background: #fff;
   font-size: 1.05rem;
   font-family: inherit;
@@ -639,6 +697,22 @@ a {
 .contact-form textarea {
   min-height: 180px;
   resize: vertical;
+}
+
+.contact-form .contact-check {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: fit-content;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.contact-form .contact-check input {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin: 0;
+  accent-color: var(--gold);
 }
 
 .contact-form .button {
@@ -654,20 +728,30 @@ a {
   cursor: pointer;
 }
 
-.contact-form .form-note {
-  font-size: 1rem;
-  margin-top: 0.2rem;
+.form-status {
+  min-height: 1.5em;
+  margin: 0.25rem 0 0;
+  color: var(--gold-deep);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
 }
 
-.contact-image-full {
-  width: 100%;
-  margin: 2rem 0 0;
+.not-found {
+  max-width: 720px;
+  margin-inline: auto;
+  padding: clamp(3rem, 10vw, 8rem) 0;
+  text-align: center;
 }
 
-.contact-image-full img {
-  width: 100%;
-  height: auto;
-  display: block;
+.not-found h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(4rem, 12vw, 8rem);
+  line-height: 0.9;
+}
+
+.not-found p {
+  margin: 0 auto 1.75rem;
+  color: var(--muted);
 }
 
 .tickettailor-embed {
@@ -683,7 +767,7 @@ a {
 .tickettailor-embed .tt-widget iframe,
 .tickettailor-embed .tt-widget script {
   width: 100% !important;
-  min-height: 620px !important;
+  min-height: 360px !important;
 }
 
 .tickettailor-embed .tt-widget,
@@ -748,6 +832,15 @@ a {
   .intro-with-image,
   .contact-layout {
     grid-template-columns: 1fr;
+  }
+
+  .contact-layout {
+    min-height: 0;
+    padding: 2rem 1.25rem 2.5rem;
+  }
+
+  .contact-layout::after {
+    background: linear-gradient(180deg, rgba(18, 15, 13, 0.88) 0%, rgba(18, 15, 13, 0.72) 100%);
   }
 
   .contact-details p {
@@ -947,7 +1040,7 @@ a {
 
 .tickettailor-embed iframe {
   width: 100%;
-  min-height: 620px;
+  min-height: 360px;
   border: 1px solid var(--line);
   background: #fff;
 }
@@ -1082,6 +1175,31 @@ body.lightbox-open {
   background: var(--paper);
   border: 1px solid var(--line);
   padding: 1.25rem 1.5rem;
+}
+
+.past-events {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.past-events .event {
+  grid-template-columns: 145px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+}
+
+.past-events .event h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.past-events .event .meta {
+  margin: 0;
+  font-size: 0.72rem;
 }
 
 .section-links {
@@ -1302,7 +1420,8 @@ main.section {
 
 @media (max-width: 640px) {
   .hero-video-stack {
-    width: 100%;
+    width: min(100%, 340px);
+    margin-inline: auto;
   }
 
   .event {

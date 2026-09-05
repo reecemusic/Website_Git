@@ -143,9 +143,18 @@ if (contactForm) {
 
     const action = contactForm.getAttribute('action');
     const submitButton = contactForm.querySelector('button[type="submit"]');
+    const humanConfirmation = contactForm.querySelector('input[name="human-confirmation"]');
+    const statusMessage = contactForm.querySelector('#contact-status');
 
     if (!action) {
       alert('The contact form is not configured yet. Please email info@reecemusic.com directly.');
+      return;
+    }
+
+    if (humanConfirmation && humanConfirmation.checked) {
+      event.preventDefault();
+      alert('Please untick the second box before sending your message.');
+      humanConfirmation.focus();
       return;
     }
 
@@ -174,12 +183,20 @@ if (contactForm) {
       if (submitButton) {
         submitButton.textContent = 'Sent';
       }
+
+      if (statusMessage) {
+        statusMessage.textContent = 'Your message has been sent.';
+      }
     } catch (error) {
       console.error(error);
 
       if (submitButton) {
         submitButton.textContent = originalLabel;
         submitButton.disabled = false;
+      }
+
+      if (statusMessage) {
+        statusMessage.textContent = 'Your message could not be sent. Please try again.';
       }
 
       alert('Your message could not be sent right now. Please try again or email info@reecemusic.com directly.');
