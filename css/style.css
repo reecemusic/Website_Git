@@ -29,13 +29,12 @@ body {
 }
 
 body:not(.home) {
-  background-image:
-    linear-gradient(rgba(243, 239, 230, 0.78), rgba(243, 239, 230, 0.78)),
-    url("../images/reece.jpg");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
+  background: var(--bg);
+}
+
+body.interior.events-page {
+  background: var(--paper);
+  background-image: none;
 }
 
 .sr-only {
@@ -122,10 +121,9 @@ a {
 
 .hero-photo {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
+  align-items: center;
   min-height: 100vh;
-  padding: 8rem 0 4.5rem;
+  padding: 9rem 0 5rem;
   background-color: #1a1612;
   background-image:
     linear-gradient(90deg, rgba(26, 22, 18, 0.55) 0%, rgba(26, 22, 18, 0.18) 42%, rgba(26, 22, 18, 0.08) 100%),
@@ -135,16 +133,62 @@ a {
   background-position: center top;
   background-repeat: no-repeat;
   position: relative;
+  isolation: isolate;
+}
+
+.hero-background-video {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.hero-reverse-video {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-reverse-video.is-active {
+  opacity: 1;
+}
+
+.hero-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(26, 22, 18, 0.62) 0%, rgba(26, 22, 18, 0.2) 44%, rgba(26, 22, 18, 0.05) 100%);
+  pointer-events: none;
 }
 
 .hero-video {
-  position: absolute;
-  bottom: 2rem;
-  right: 2rem;
-  width: 560px;
-  height: 315px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   border: 2px solid rgba(251, 247, 240, 0.3);
   overflow: hidden;
+}
+
+.hero-video-stack {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: min(21vw, 300px);
+  display: grid;
+  gap: 0.75rem;
+  transform: translateY(-50%);
+}
+
+.hero-layout {
+  display: block;
+  flex: 1 1 auto;
+  position: relative;
+  z-index: 1;
+  width: auto;
+  margin-left: clamp(1rem, 4vw, 4rem);
+  margin-right: 0;
 }
 
 .hero-video iframe {
@@ -153,7 +197,7 @@ a {
 }
 
 .hero-copy {
-  max-width: 36rem;
+  max-width: 31rem;
   margin-left: 0;
   margin-right: auto;
 }
@@ -203,8 +247,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.2rem;
-  min-height: 78px;
+  gap: 0.8rem;
+  min-height: 92px;
 }
 
 .menu-toggle {
@@ -234,7 +278,8 @@ a {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-size: 1.45rem;
+  font-size: 2rem;
+  white-space: nowrap;
 }
 
 .logo span {
@@ -250,20 +295,40 @@ a {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 0.35rem 1.05rem;
+  gap: 0.35rem 0.75rem;
 }
 
 .nav a {
+  position: relative;
   text-decoration: none;
   color: var(--muted);
-  font-size: 1.6rem;
-  letter-spacing: 0.06em;
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  padding: 0.35rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+.nav a + a {
+  padding-left: 0.75rem;
+}
+
+.nav a + a::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 1px;
+  height: 0.8em;
+  background: currentColor;
+  opacity: 0.45;
+  transform: translateY(-50%);
 }
 
 .nav a:hover,
 .nav a.is-active {
   color: var(--ink);
+  border-bottom-color: var(--gold);
 }
 
 /* Hero */
@@ -276,21 +341,23 @@ a {
   color: var(--gold-deep);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-size: 0.2rem;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 .hero h1,
 .hero-photo h1 {
   margin: 0 0 0.8rem;
-  font-size: clamp(4rem, 10vw, 7rem);
-  line-height: 0.92;
-  letter-spacing: -0.03em;
+  font-size: clamp(3.8rem, 7vw, 6.3rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
 }
 
 .lede {
-  font-size: 1.7rem;
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
   color: var(--muted);
   max-width: 38rem;
+  margin: 0;
 }
 
 .hero-photo .kicker,
@@ -303,6 +370,16 @@ a {
   flex-wrap: wrap;
   gap: 0.7rem;
   margin-top: 1.4rem;
+}
+
+.hero-note {
+  margin: 1.25rem 0 0;
+  color: #e8dfd0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .portrait {
@@ -355,17 +432,20 @@ a {
 
 /* Sections */
 .section {
-  padding: 2.4rem 0 4.2rem;
+  padding: 4.5rem 0;
 }
 
 .section h1 {
   margin-top: 0;
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  margin-bottom: 1rem;
+  font-size: clamp(2.5rem, 5vw, 4.6rem);
+  line-height: 1;
 }
 
 .section h2 {
   margin-top: 0;
-  font-size: 1.7rem;
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  line-height: 1.1;
 }
 
 .section-head {
@@ -379,19 +459,35 @@ a {
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .grid-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 1.25rem;
+}
+
+.card {
+  display: block;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 1.5rem;
+}
+
+.card h3,
+.card h2 {
+  margin: 0 0 0.65rem;
+}
+
+.card p:last-child {
+  margin-bottom: 0;
 }
 
 .artwork-item {
@@ -448,8 +544,8 @@ a {
 
 .about-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 6vw, 5rem);
   align-items: start;
 }
 
@@ -458,7 +554,8 @@ a {
 }
 
 .about-content {
-  padding-top: 2rem;
+  max-width: 40rem;
+  padding-top: 1.5rem;
 }
 
 .about-full-image {
@@ -497,7 +594,7 @@ a {
 .contact-layout {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
-  gap: 2rem;
+  gap: clamp(2rem, 7vw, 6rem);
   align-items: start;
 }
 
@@ -506,9 +603,9 @@ a {
 }
 
 .contact-details p {
-  font-size: 1.75rem;
+  font-size: clamp(1.15rem, 2.2vw, 1.6rem);
   line-height: 1.4;
-  margin: 0 0 0.45rem;
+  margin: 0 0 0.8rem;
 }
 
 .contact-form {
@@ -574,8 +671,11 @@ a {
 }
 
 .tickettailor-embed {
-  margin: 1rem 0 2.5rem;
+  margin: 1.5rem 0 4rem;
   width: 100%;
+  padding: 0.8rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
 }
 
 .tickettailor-embed .tt-widget,
@@ -583,7 +683,7 @@ a {
 .tickettailor-embed .tt-widget iframe,
 .tickettailor-embed .tt-widget script {
   width: 100% !important;
-  min-height: 1100px !important;
+  min-height: 620px !important;
 }
 
 .tickettailor-embed .tt-widget,
@@ -619,6 +719,11 @@ a {
 
   .nav a {
     font-size: 1.1rem;
+    padding-left: 0;
+  }
+
+  .nav a + a::before {
+    display: none;
   }
 
   .hero-photo {
@@ -626,11 +731,11 @@ a {
     padding-top: 7rem;
   }
 
-  .hero-video {
+  .hero-video-stack {
     position: static;
     width: min(100%, 540px);
-    height: 260px;
-    margin-top: 1.5rem;
+    margin-top: 2rem;
+    transform: none;
   }
 
   .grid-4 {
@@ -648,9 +753,22 @@ a {
   .contact-details p {
     font-size: 1.35rem;
   }
+
+  .event {
+    grid-template-columns: 1fr;
+  }
+
+  .event p:not(.meta) {
+    grid-column: auto;
+  }
 }
 
 @media (max-width: 900px) {
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
   .project-layout {
     grid-template-columns: 1fr;
   }
@@ -661,6 +779,31 @@ a {
 
   .project-sidebar nav {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1050px) {
+  .header-inner {
+    flex-wrap: wrap;
+    padding: 0.8rem 0;
+  }
+
+  .menu-toggle {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .nav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.3rem 0 0.1rem;
+  }
+
+  .nav.is-open {
+    display: flex;
   }
 }
 
@@ -729,7 +872,7 @@ a {
   }
 
   .logo {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     letter-spacing: 0.06em;
   }
 
@@ -740,8 +883,8 @@ a {
 
   .hero,
   .section {
-    padding-top: 2rem;
-    padding-bottom: 2.5rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   .hero-photo {
@@ -780,6 +923,15 @@ a {
     font-size: 1.15rem;
   }
 
+  .card,
+  .event {
+    padding: 1.15rem;
+  }
+
+  .about-hero-image {
+    height: min(500px, 110vw);
+  }
+
   .contact-form {
     max-width: none;
   }
@@ -795,7 +947,7 @@ a {
 
 .tickettailor-embed iframe {
   width: 100%;
-  min-height: 1100px;
+  min-height: 620px;
   border: 1px solid var(--line);
   background: #fff;
 }
@@ -917,13 +1069,27 @@ body.lightbox-open {
   margin: 0;
 }
 
-.card,
 .event,
 .project-layout {
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
   gap: 1.5rem;
   align-items: start;
+}
+
+.event {
+  grid-template-columns: 180px minmax(0, 1fr);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 1.25rem 1.5rem;
+}
+
+.section-links {
+  padding-top: 1rem;
+}
+
+.section-links .card {
+  border-top: 3px solid var(--gold);
 }
 
 .project-sidebar {
@@ -1032,6 +1198,11 @@ body.lightbox-open {
   font-size: 1.4rem;
 }
 
+.event p:not(.meta) {
+  grid-column: 2;
+  margin-top: 0;
+}
+
 .event p,
 .record p,
 .card p {
@@ -1096,8 +1267,8 @@ body.lightbox-open {
 }
 
 main.section {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 3.5rem;
+  padding-bottom: 4.5rem;
 }
 
 @media (max-width: 860px) {
@@ -1116,5 +1287,29 @@ main.section {
 
   .nav {
     justify-content: flex-start;
+  }
+}
+
+@media (max-width: 900px) {
+  .project-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .project-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-video-stack {
+    width: 100%;
+  }
+
+  .event {
+    grid-template-columns: 1fr;
+  }
+
+  .event p:not(.meta) {
+    grid-column: auto;
   }
 }

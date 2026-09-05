@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact — Your Site Name</title>
+  <title>Contact Reece Williams</title>
   <link rel="icon" type="image/png" href="favicon.png?v=3">
-  <meta name="description" content="Contact Your Site Name.">
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="description" content="Get in touch with Reece Williams about performances, recordings, and collaborations.">
+  <link rel="stylesheet" href="css/style.css?v=20260903">
 </head>
 <body class="interior">
   <header class="site-header">
@@ -20,8 +20,8 @@
       <nav id="site-nav" class="nav" aria-label="Main">
         <a href="index.html">Home</a>
         <a href="about.html">About Me</a>
-        <a href="events.html">Live Events</a>
         <a href="recordings.html">Projects</a>
+        <a href="events.html">Live Events</a>
         <a href="services.html">Services</a>
         <a href="artwork.html">Artwork</a>
         <a href="contact.html" class="is-active">Contact Me</a>
@@ -44,7 +44,11 @@
           <p><strong>Location:</strong> Abu Dhabi, United Arab Emirates</p>
         </div>
 
-        <form class="contact-form" action="mailto:info@reecemusic.com" method="post" enctype="text/plain">
+        <form class="contact-form" id="contact-form" action="contact.php" method="POST">
+          <label class="sr-only" aria-hidden="true">
+            Website
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </label>
           <label>
             Name
             <input type="text" name="name" required>
@@ -73,10 +77,10 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <p>&copy; <span id="year"></span> Your Site Name. All rights reserved.</p>
+      <p>&copy; <span id="year"></span> Reece Williams. All rights reserved.</p>
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=20260903"></script>
 </body>
 </html>

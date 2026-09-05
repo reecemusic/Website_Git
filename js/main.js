@@ -104,3 +104,85 @@ projectJumpButtons.forEach(function (button) {
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
+
+const heroBackgroundVideo = document.querySelector('.hero-background-video');
+const heroReverseVideo = document.querySelector('.hero-reverse-video');
+
+if (heroBackgroundVideo && heroReverseVideo) {
+  heroBackgroundVideo.loop = false;
+  heroReverseVideo.loop = false;
+
+  heroBackgroundVideo.addEventListener('loadedmetadata', function () {
+    heroBackgroundVideo.play().catch(function () {});
+  });
+
+  heroBackgroundVideo.addEventListener('ended', function () {
+    heroBackgroundVideo.pause();
+    heroReverseVideo.currentTime = 0;
+    heroReverseVideo.classList.add('is-active');
+    heroReverseVideo.play().catch(function () {});
+  });
+
+  heroReverseVideo.addEventListener('ended', function () {
+    heroReverseVideo.pause();
+    heroReverseVideo.classList.remove('is-active');
+    heroBackgroundVideo.currentTime = 0;
+    heroBackgroundVideo.play().catch(function () {});
+  });
+
+  heroReverseVideo.addEventListener('loadeddata', function () {
+    heroReverseVideo.currentTime = 0;
+  });
+}
+
+const contactForm = document.getElementById('contact-form');
+
+if (contactForm) {
+  contactForm.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const action = contactForm.getAttribute('action');
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+
+    if (!action) {
+      alert('The contact form is not configured yet. Please email info@reecemusic.com directly.');
+      return;
+    }
+
+    const originalLabel = submitButton ? submitButton.textContent : 'Sending...';
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending...';
+    }
+
+    try {
+      const response = await fetch(action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Form submission failed');
+      }
+
+      contactForm.reset();
+
+      if (submitButton) {
+        submitButton.textContent = 'Sent';
+      }
+    } catch (error) {
+      console.error(error);
+
+      if (submitButton) {
+        submitButton.textContent = originalLabel;
+        submitButton.disabled = false;
+      }
+
+      alert('Your message could not be sent right now. Please try again or email info@reecemusic.com directly.');
+    }
+  });
+}
