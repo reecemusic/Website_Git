@@ -74,9 +74,7 @@ if ($mailingList) {
     ];
 
     if (!mail('info@reecemusic.com', $subject, $body, implode("\r\n", $headers))) {
-        http_response_code(500);
-        echo json_encode(['error' => 'The signup could not be completed.']);
-        exit;
+        error_log('Mailing list signup notification email could not be sent.');
     }
 
     echo json_encode(['success' => true]);

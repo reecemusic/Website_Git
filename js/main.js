@@ -189,7 +189,13 @@ if (mailingListForm) {
         headers: { Accept: 'application/json' }
       });
 
-      if (!response.ok) throw new Error('Mailing list signup failed');
+      const result = await response.json().catch(function () {
+        return {};
+      });
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Mailing list signup failed');
+      }
 
       mailingListForm.reset();
       if (submitButton) submitButton.textContent = 'Submitted';
@@ -205,7 +211,7 @@ if (mailingListForm) {
       }
       if (statusMessage) {
         statusMessage.classList.add('is-error');
-        statusMessage.textContent = 'We could not add you right now. Please try again.';
+        statusMessage.textContent = error.message || 'We could not add you right now. Please try again.';
       }
     }
   });
