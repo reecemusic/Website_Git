@@ -1823,22 +1823,43 @@ main.section {
 
   .hero-video-stack {
     position: absolute;
-    top: calc(78svh - 3rem);
-    right: 1rem;
+    top: calc(78svh + 1rem);
+    left: 50%;
+    right: auto;
     width: min(70vw, 300px);
     margin-top: 0;
-    transform: none;
+    transform: translateX(-50%);
   }
 }
 
 @media (max-width: 640px) {
+  .hero-note {
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .hero-note span {
+    display: inline;
+  }
+
+  .hero-note span + span::before {
+    content: " ";
+  }
+
+  .hero-photo h1 > .hero-name {
+    flex-direction: row;
+    gap: 0.35em;
+    white-space: nowrap;
+  }
+
   .mailing-list-block {
     position: absolute;
     left: 0;
     width: 100%;
     margin-top: 0;
     bottom: auto;
-    top: calc(78svh - 3rem);
-    transform: translateY(calc(-100% - 1rem));
+    top: calc(78svh + 1rem);
+    transform: translateY(calc(-100% - 0.5rem));
   }
 }
