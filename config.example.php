@@ -12,7 +12,8 @@ return [
         'host' => 'mail.reecemusic.com',
         'port' => 465,
         'encryption' => 'ssl',
-        'username' => 'info@reecemusic.com',
-        'password' => 'replace-with-mailbox-password'
+        'username' => '_mainaccount@reecemusic.com',
+        'password' => 'replace-with-cpanel-password',
+        'from' => 'info@reecemusic.com'
     ]
 ];

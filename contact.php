@@ -11,6 +11,7 @@ function sendSmtpEmail(array $smtp, string $to, string $subject, string $textBod
     $encryption = (string) ($smtp['encryption'] ?? 'ssl');
     $username = (string) ($smtp['username'] ?? '');
     $password = (string) ($smtp['password'] ?? '');
+    $from = (string) ($smtp['from'] ?? $username);
 
     if ($host === '' || $username === '' || $password === '' || str_contains($password, 'replace-with-')) {
         error_log('SMTP is not configured with a real mailbox password.');
@@ -72,8 +73,8 @@ function sendSmtpEmail(array $smtp, string $to, string $subject, string $textBod
 
     $boundary = '=_reece_music_' . bin2hex(random_bytes(12));
     $headers = [
-        'From: Reece Music <' . $username . '>',
-        'Reply-To: ' . $username,
+        'From: Reece Music <' . $from . '>',
+        'Reply-To: ' . $from,
         'To: ' . $to,
         'Subject: ' . $subject,
         'MIME-Version: 1.0',
