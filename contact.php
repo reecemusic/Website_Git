@@ -16,6 +16,7 @@ $message = trim((string) ($_POST['message'] ?? ''));
 $website = trim((string) ($_POST['website'] ?? ''));
 $human = ($_POST['human'] ?? '') === 'yes';
 $mailingList = ($_POST['mailing-list'] ?? '') === 'yes';
+$source = trim((string) ($_POST['source'] ?? 'homepage'));
 
 if ($website !== '') {
     echo json_encode(['success' => true]);
@@ -26,6 +27,41 @@ if ($mailingList) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         http_response_code(422);
         echo json_encode(['error' => 'Please provide a valid email address.']);
+        exit;
+    }
+
+    $source = preg_replace('/[^a-zA-Z0-9_-]/', '', $source) ?: 'homepage';
+    $configPath = __DIR__ . '/config.php';
+
+    if (!is_file($configPath)) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Mailing list storage is not configured yet.']);
+        exit;
+    }
+
+    try {
+        $config = require $configPath;
+        $database = $config['database'];
+        $dsn = sprintf(
+            'mysql:host=%s;dbname=%s;charset=%s',
+            $database['host'],
+            $database['name'],
+            $database['charset'] ?? 'utf8mb4'
+        );
+        $pdo = new PDO($dsn, $database['user'], $database['password'], [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false
+        ]);
+        $statement = $pdo->prepare(
+            'INSERT INTO mailing_list_subscribers (email, source) VALUES (:email, :source) '
+            . 'ON DUPLICATE KEY UPDATE source = VALUES(source)'
+        );
+        $statement->execute(['email' => $email, 'source' => $source]);
+    } catch (Throwable $error) {
+        error_log('Mailing list signup failed: ' . $error->getMessage());
+        http_response_code(500);
+        echo json_encode(['error' => 'The signup could not be completed.']);
         exit;
     }
 
