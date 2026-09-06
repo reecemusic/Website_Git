@@ -167,6 +167,49 @@ videoGroups.forEach(function (group) {
 });
 
 const contactForm = document.getElementById('contact-form');
+const mailingListForm = document.getElementById('mailing-list-form');
+
+if (mailingListForm) {
+  mailingListForm.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const submitButton = mailingListForm.querySelector('button[type="submit"]');
+    const statusMessage = mailingListForm.querySelector('#mailing-list-status');
+    const originalLabel = submitButton ? submitButton.textContent : 'Submit';
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending...';
+    }
+
+    try {
+      const response = await fetch(mailingListForm.action, {
+        method: 'POST',
+        body: new FormData(mailingListForm),
+        headers: { Accept: 'application/json' }
+      });
+
+      if (!response.ok) throw new Error('Mailing list signup failed');
+
+      mailingListForm.reset();
+      if (submitButton) submitButton.textContent = 'Submitted';
+      if (statusMessage) {
+        statusMessage.classList.remove('is-error');
+        statusMessage.textContent = 'Thanks, you are on the list.';
+      }
+    } catch (error) {
+      console.error(error);
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalLabel;
+      }
+      if (statusMessage) {
+        statusMessage.classList.add('is-error');
+        statusMessage.textContent = 'We could not add you right now. Please try again.';
+      }
+    }
+  });
+}
 
 if (contactForm) {
   contactForm.addEventListener('submit', async function (event) {

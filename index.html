@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reece Williams | Pianist</title>
+  <title>Reece Music | Pianist</title>
   <meta name="description" content="Pianist Reece Williams — recitals, private events, teaching and recordings.">
-  <link rel="stylesheet" href="css/style.css?v=20260906-6">
+  <link rel="icon" type="image/png" href="images/reece-favicon.png">
+  <link rel="stylesheet" href="css/style.css?v=20260906-34">
 </head>
 <body class="home">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="logo" href="index.html"><img src="images/reece-logo.jpg" alt="" width="320" height="320">Reece Music</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
         <span></span>
         <span></span>
@@ -39,14 +39,24 @@
       </video>
       <div class="wrap hero-layout">
         <div class="hero-copy">
-          <h1>Reece Williams</h1>
+          <h1><img src="images/reece-logo.jpg" alt="" width="320" height="320"><span class="hero-name"><span>Reece</span><span>Music</span></span></h1>
           <p class="lede">Ambient piano, medleys, ukulele, and electronica for intimate rooms, thoughtful recordings, and creative collaborations.</p>
-          <p class="hero-note">Demo album coming soon.</p>
+          <p class="hero-note"><span>Demo album</span><span>coming soon...</span></p>
           <div class="hero-actions">
             <a class="btn btn-ghost" href="recordings.html">Listen</a>
             <a class="btn btn-primary" href="events.html">Upcoming dates</a>
             <a class="btn btn-ghost" href="contact.html">Enquire</a>
           </div>
+        </div>
+        <div class="mailing-list-block">
+          <p class="mailing-list-label">Sign up to our mailing list</p>
+          <form class="mailing-list-form" id="mailing-list-form" action="contact.php" method="POST" aria-describedby="mailing-list-status">
+            <input type="hidden" name="mailing-list" value="yes">
+            <label class="sr-only" for="mailing-list-email">Email address</label>
+            <input id="mailing-list-email" type="email" name="email" placeholder="Email address" autocomplete="email" required>
+            <button class="button" type="submit">Submit</button>
+            <p class="form-status" id="mailing-list-status" role="status" aria-live="polite"></p>
+          </form>
         </div>
         <div class="hero-video-stack">
           <div class="hero-video">
@@ -70,6 +80,6 @@
       <p><a href="mailto:info@reecemusic.com">info@reecemusic.com</a></p>
     </div>
   </footer>
-  <script src="js/main.js?v=20260906-3"></script>
+  <script src="js/main.js?v=20260906-4"></script>
 </body>
 </html>

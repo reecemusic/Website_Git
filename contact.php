@@ -15,8 +15,34 @@ $email = trim((string) ($_POST['email'] ?? ''));
 $message = trim((string) ($_POST['message'] ?? ''));
 $website = trim((string) ($_POST['website'] ?? ''));
 $human = ($_POST['human'] ?? '') === 'yes';
+$mailingList = ($_POST['mailing-list'] ?? '') === 'yes';
 
 if ($website !== '') {
+    echo json_encode(['success' => true]);
+    exit;
+}
+
+if ($mailingList) {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        http_response_code(422);
+        echo json_encode(['error' => 'Please provide a valid email address.']);
+        exit;
+    }
+
+    $subject = 'New mailing list signup';
+    $body = "Email: {$email}\n";
+    $headers = [
+        'From: Website mailing list <info@reecemusic.com>',
+        'Reply-To: ' . $email,
+        'Content-Type: text/plain; charset=UTF-8'
+    ];
+
+    if (!mail('info@reecemusic.com', $subject, $body, implode("\r\n", $headers))) {
+        http_response_code(500);
+        echo json_encode(['error' => 'The signup could not be completed.']);
+        exit;
+    }
+
     echo json_encode(['success' => true]);
     exit;
 }
