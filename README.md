@@ -35,3 +35,5 @@ The homepage signup stores subscribers in MySQL through `contact.php`.
 4. Upload `config.php` to the same directory as `contact.php` on Tasjeel.
 
 The subscriber table stores the email address, signup source, and signup timestamp. Duplicate email addresses are handled safely. Successful signups also receive an automated thank-you email from `info@reecemusic.com`.
+
+SMTP delivery uses the `info@reecemusic.com` mailbox. In `config.php`, set the SMTP password to the mailbox password, not the MySQL password. The default Tasjeel settings are `mail.reecemusic.com`, port `465`, and `ssl`; confirm these values with Tasjeel if delivery fails.

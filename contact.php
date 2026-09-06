@@ -4,6 +4,95 @@ declare(strict_types=1);
 
 header('Content-Type: application/json; charset=UTF-8');
 
+function sendSmtpEmail(array $smtp, string $to, string $subject, string $textBody, string $htmlBody): bool
+{
+    $host = (string) ($smtp['host'] ?? '');
+    $port = (int) ($smtp['port'] ?? 465);
+    $encryption = (string) ($smtp['encryption'] ?? 'ssl');
+    $username = (string) ($smtp['username'] ?? '');
+    $password = (string) ($smtp['password'] ?? '');
+
+    if ($host === '' || $username === '' || $password === '' || str_contains($password, 'replace-with-')) {
+        error_log('SMTP is not configured with a real mailbox password.');
+        return false;
+    }
+
+    $transport = $encryption === 'ssl' ? 'ssl://' : 'tcp://';
+    $socket = @stream_socket_client($transport . $host . ':' . $port, $errorNumber, $errorMessage, 15);
+
+    if (!is_resource($socket)) {
+        error_log("SMTP connection failed: {$errorMessage} ({$errorNumber})");
+        return false;
+    }
+
+    stream_set_timeout($socket, 15);
+
+    $readResponse = static function () use ($socket): string {
+        $response = '';
+        while (($line = fgets($socket, 512)) !== false) {
+            $response .= $line;
+            if (isset($line[3]) && $line[3] === ' ') break;
+        }
+        return $response;
+    };
+
+    $sendCommand = static function (string $command) use ($socket, $readResponse): string {
+        fwrite($socket, $command . "\r\n");
+        return $readResponse();
+    };
+
+    $expect = static function (string $response, array $codes): bool {
+        $code = (int) substr($response, 0, 3);
+        return in_array($code, $codes, true);
+    };
+
+    $valid = $expect($readResponse(), [220]);
+    $valid = $valid && $expect($sendCommand('EHLO reecemusic.com'), [250]);
+    if (!$valid || $encryption === 'tls' && !$expect($sendCommand('STARTTLS'), [220])) {
+        fclose($socket);
+        return false;
+    }
+
+    if ($encryption === 'tls') {
+        $cryptoEnabled = stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+        $valid = $cryptoEnabled && $expect($sendCommand('EHLO reecemusic.com'), [250]);
+    }
+
+    $valid = $valid && $expect($sendCommand('AUTH LOGIN'), [334]);
+    $valid = $valid && $expect($sendCommand(base64_encode($username)), [334]);
+    $valid = $valid && $expect($sendCommand(base64_encode($password)), [235]);
+    $valid = $valid && $expect($sendCommand('MAIL FROM:<' . $username . '>'), [250]);
+    $valid = $valid && $expect($sendCommand('RCPT TO:<' . $to . '>'), [250, 251]);
+    $valid = $valid && $expect($sendCommand('DATA'), [354]);
+
+    if (!$valid) {
+        fclose($socket);
+        return false;
+    }
+
+    $boundary = '=_reece_music_' . bin2hex(random_bytes(12));
+    $headers = [
+        'From: Reece Music <' . $username . '>',
+        'Reply-To: ' . $username,
+        'To: ' . $to,
+        'Subject: ' . $subject,
+        'MIME-Version: 1.0',
+        'Content-Type: multipart/alternative; boundary="' . $boundary . '"'
+    ];
+    $message = implode("\r\n", $headers) . "\r\n\r\n"
+        . '--' . $boundary . "\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n"
+        . $textBody . "\r\n"
+        . '--' . $boundary . "\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n"
+        . $htmlBody . "\r\n"
+        . '--' . $boundary . "--\r\n.";
+
+    fwrite($socket, $message . "\r\n");
+    $sent = $expect($readResponse(), [250]);
+    $sendCommand('QUIT');
+    fclose($socket);
+    return $sent;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['error' => 'Method not allowed.']);
@@ -65,15 +154,11 @@ if ($mailingList) {
         exit;
     }
 
+    $smtp = $config['smtp'] ?? [];
+
     $subject = 'New mailing list signup';
     $body = "Email: {$email}\n";
-    $headers = [
-        'From: Website mailing list <info@reecemusic.com>',
-        'Reply-To: ' . $email,
-        'Content-Type: text/plain; charset=UTF-8'
-    ];
-
-    if (!mail('info@reecemusic.com', $subject, $body, implode("\r\n", $headers))) {
+    if (!sendSmtpEmail($smtp, 'info@reecemusic.com', $subject, $body, nl2br(htmlspecialchars($body, ENT_QUOTES, 'UTF-8')))) {
         error_log('Mailing list signup notification email could not be sent.');
     }
 
@@ -93,24 +178,7 @@ if ($mailingList) {
         . '</div>'
         . '<p style="margin:18px 0 0;color:#6a6358;font-size:13px;line-height:1.5;text-align:center;">Reece Music · <a href="mailto:info@reecemusic.com" style="color:#8c6a34;">info@reecemusic.com</a></p>'
         . '</div></body></html>';
-    $boundary = '=_reece_music_' . bin2hex(random_bytes(12));
-    $welcomeHeaders = [
-        'From: Reece Music <info@reecemusic.com>',
-        'Reply-To: info@reecemusic.com',
-        'MIME-Version: 1.0',
-        'Content-Type: multipart/alternative; boundary="' . $boundary . '"'
-    ];
-    $welcomeBody = '--' . $boundary . "\r\n"
-        . "Content-Type: text/plain; charset=UTF-8\r\n"
-        . "Content-Transfer-Encoding: 8bit\r\n\r\n"
-        . $welcomeText . "\r\n"
-        . '--' . $boundary . "\r\n"
-        . "Content-Type: text/html; charset=UTF-8\r\n"
-        . "Content-Transfer-Encoding: 8bit\r\n\r\n"
-        . $welcomeHtml . "\r\n"
-        . '--' . $boundary . "--\r\n";
-
-    if (!mail($email, $welcomeSubject, $welcomeBody, implode("\r\n", $welcomeHeaders))) {
+    if (!sendSmtpEmail($smtp, $email, $welcomeSubject, $welcomeText, $welcomeHtml)) {
         error_log('Mailing list welcome email could not be sent to ' . $email . '.');
     }
 
@@ -127,13 +195,17 @@ if ($name === '' || $email === '' || $message === '' || !$human || !filter_var($
 $name = str_replace(["\r", "\n"], ' ', $name);
 $subject = 'New website enquiry from ' . $name;
 $body = "Name: {$name}\nEmail: {$email}\n\nMessage:\n{$message}\n";
-$headers = [
-    'From: Website contact form <info@reecemusic.com>',
-    'Reply-To: ' . $email,
-    'Content-Type: text/plain; charset=UTF-8'
-];
+if (!is_file(__DIR__ . '/config.php')) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Email delivery is not configured yet.']);
+    exit;
+}
 
-if (!mail('info@reecemusic.com', $subject, $body, implode("\r\n", $headers))) {
+$config = require __DIR__ . '/config.php';
+$smtp = $config['smtp'] ?? [];
+$htmlBody = nl2br(htmlspecialchars($body, ENT_QUOTES, 'UTF-8'));
+
+if (!sendSmtpEmail($smtp, 'info@reecemusic.com', $subject, $body, $htmlBody)) {
     http_response_code(500);
     echo json_encode(['error' => 'The message could not be sent.']);
     exit;
