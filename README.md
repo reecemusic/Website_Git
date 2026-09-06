@@ -34,4 +34,4 @@ The homepage signup stores subscribers in MySQL through `contact.php`.
 3. Copy `config.example.php` to `config.php` and enter the cPanel database name, user, and password. Keep `config.php` private; it is excluded by `.gitignore`.
 4. Upload `config.php` to the same directory as `contact.php` on Tasjeel.
 
-The subscriber table stores the email address, signup source, and signup timestamp. Duplicate email addresses are handled safely.
+The subscriber table stores the email address, signup source, and signup timestamp. Duplicate email addresses are handled safely. Successful signups also receive an automated thank-you email from `info@reecemusic.com`.
