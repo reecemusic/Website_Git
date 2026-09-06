@@ -12,13 +12,32 @@ menuButtons.forEach(function (button) {
   button.addEventListener('click', function () {
     const isOpen = nav.classList.toggle('is-open');
     button.setAttribute('aria-expanded', String(isOpen));
+    document.body.classList.toggle('menu-open', isOpen);
   });
 
   nav.querySelectorAll('a').forEach(function (link) {
     link.addEventListener('click', function () {
       nav.classList.remove('is-open');
       button.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
     });
+  });
+
+  document.addEventListener('click', function (event) {
+    if (!nav.classList.contains('is-open') || button.parentElement.contains(event.target)) return;
+
+    nav.classList.remove('is-open');
+    button.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape' || !nav.classList.contains('is-open')) return;
+
+    nav.classList.remove('is-open');
+    button.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+    button.focus();
   });
 });
 
@@ -105,35 +124,47 @@ projectJumpButtons.forEach(function (button) {
   });
 });
 
-const heroBackgroundVideo = document.querySelector('.hero-background-video');
-const heroReverseVideo = document.querySelector('.hero-reverse-video');
+const videoGroups = document.querySelectorAll('.hero, .contact-layout');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const prefersReducedData = navigator.connection && navigator.connection.saveData;
 
-if (heroBackgroundVideo && heroReverseVideo) {
-  heroBackgroundVideo.loop = false;
-  heroReverseVideo.loop = false;
+videoGroups.forEach(function (group) {
+  const forwardVideo = group.querySelector('.hero-background-video:not(.hero-reverse-video)');
+  const reverseVideo = group.querySelector('.hero-reverse-video');
 
-  heroBackgroundVideo.addEventListener('loadedmetadata', function () {
-    heroBackgroundVideo.play().catch(function () {});
+  if (!forwardVideo || !reverseVideo) return;
+
+  forwardVideo.loop = false;
+  reverseVideo.loop = false;
+
+  if (prefersReducedMotion || prefersReducedData) {
+    forwardVideo.pause();
+    reverseVideo.pause();
+    return;
+  }
+
+  forwardVideo.addEventListener('loadedmetadata', function () {
+    forwardVideo.play().catch(function () {});
   });
 
-  heroBackgroundVideo.addEventListener('ended', function () {
-    heroBackgroundVideo.pause();
-    heroReverseVideo.currentTime = 0;
-    heroReverseVideo.classList.add('is-active');
-    heroReverseVideo.play().catch(function () {});
+  forwardVideo.addEventListener('ended', function () {
+    forwardVideo.pause();
+    reverseVideo.currentTime = 0;
+    reverseVideo.classList.add('is-active');
+    reverseVideo.play().catch(function () {});
   });
 
-  heroReverseVideo.addEventListener('ended', function () {
-    heroReverseVideo.pause();
-    heroReverseVideo.classList.remove('is-active');
-    heroBackgroundVideo.currentTime = 0;
-    heroBackgroundVideo.play().catch(function () {});
+  reverseVideo.addEventListener('ended', function () {
+    reverseVideo.pause();
+    reverseVideo.classList.remove('is-active');
+    forwardVideo.currentTime = 0;
+    forwardVideo.play().catch(function () {});
   });
 
-  heroReverseVideo.addEventListener('loadeddata', function () {
-    heroReverseVideo.currentTime = 0;
+  reverseVideo.addEventListener('loadeddata', function () {
+    reverseVideo.currentTime = 0;
   });
-}
+});
 
 const contactForm = document.getElementById('contact-form');
 
@@ -143,18 +174,10 @@ if (contactForm) {
 
     const action = contactForm.getAttribute('action');
     const submitButton = contactForm.querySelector('button[type="submit"]');
-    const humanConfirmation = contactForm.querySelector('input[name="human-confirmation"]');
     const statusMessage = contactForm.querySelector('#contact-status');
 
     if (!action) {
-      alert('The contact form is not configured yet. Please email info@reecemusic.com directly.');
-      return;
-    }
-
-    if (humanConfirmation && humanConfirmation.checked) {
-      event.preventDefault();
-      alert('Please untick the second box before sending your message.');
-      humanConfirmation.focus();
+      if (statusMessage) statusMessage.textContent = 'Please email info@reecemusic.com directly.';
       return;
     }
 
@@ -185,6 +208,7 @@ if (contactForm) {
       }
 
       if (statusMessage) {
+        statusMessage.classList.remove('is-error');
         statusMessage.textContent = 'Your message has been sent.';
       }
     } catch (error) {
@@ -196,10 +220,9 @@ if (contactForm) {
       }
 
       if (statusMessage) {
+        statusMessage.classList.add('is-error');
         statusMessage.textContent = 'Your message could not be sent. Please try again.';
       }
-
-      alert('Your message could not be sent right now. Please try again or email info@reecemusic.com directly.');
     }
   });
 }
