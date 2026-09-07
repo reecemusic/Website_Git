@@ -198,7 +198,10 @@ if (mailingListForm) {
       }
 
       mailingListForm.reset();
-      if (submitButton) submitButton.textContent = 'Submitted';
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalLabel;
+      }
       if (statusMessage) {
         statusMessage.classList.remove('is-error');
         statusMessage.textContent = 'Thanks, you are on the list.';

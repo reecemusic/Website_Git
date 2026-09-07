@@ -62,11 +62,12 @@ function sendSmtpEmail(array $smtp, string $to, string $subject, string $textBod
     $valid = $valid && $expect($sendCommand('AUTH LOGIN'), [334]);
     $valid = $valid && $expect($sendCommand(base64_encode($username)), [334]);
     $valid = $valid && $expect($sendCommand(base64_encode($password)), [235]);
-    $valid = $valid && $expect($sendCommand('MAIL FROM:<' . $username . '>'), [250]);
+    $valid = $valid && $expect($sendCommand('MAIL FROM:<' . $from . '>'), [250]);
     $valid = $valid && $expect($sendCommand('RCPT TO:<' . $to . '>'), [250, 251]);
     $valid = $valid && $expect($sendCommand('DATA'), [354]);
 
     if (!$valid) {
+        error_log('SMTP authentication or envelope validation failed for ' . $username . ' while sending to ' . $to . '.');
         fclose($socket);
         return false;
     }
@@ -159,7 +160,8 @@ if ($mailingList) {
 
     $subject = 'New mailing list signup';
     $body = "Email: {$email}\n";
-    if (!sendSmtpEmail($smtp, 'info@reecemusic.com', $subject, $body, nl2br(htmlspecialchars($body, ENT_QUOTES, 'UTF-8')))) {
+    $notificationSent = sendSmtpEmail($smtp, 'info@reecemusic.com', $subject, $body, nl2br(htmlspecialchars($body, ENT_QUOTES, 'UTF-8')));
+    if (!$notificationSent) {
         error_log('Mailing list signup notification email could not be sent.');
     }
 
@@ -179,8 +181,12 @@ if ($mailingList) {
         . '</div>'
         . '<p style="margin:18px 0 0;color:#6a6358;font-size:13px;line-height:1.5;text-align:center;">Reece Music · <a href="mailto:info@reecemusic.com" style="color:#8c6a34;">info@reecemusic.com</a></p>'
         . '</div></body></html>';
-    if (!sendSmtpEmail($smtp, $email, $welcomeSubject, $welcomeText, $welcomeHtml)) {
+    $welcomeSent = sendSmtpEmail($smtp, $email, $welcomeSubject, $welcomeText, $welcomeHtml);
+    if (!$welcomeSent) {
         error_log('Mailing list welcome email could not be sent to ' . $email . '.');
+        http_response_code(502);
+        echo json_encode(['error' => 'Your email was added to the mailing list, but the confirmation email could not be delivered. Please contact info@reecemusic.com.']);
+        exit;
     }
 
     echo json_encode(['success' => true]);
