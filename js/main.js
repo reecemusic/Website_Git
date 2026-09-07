@@ -186,6 +186,12 @@ if (mailingListForm) {
     }
   };
 
+  resetMailingListUi();
+
+  window.addEventListener('pageshow', function () {
+    resetMailingListUi();
+  });
+
   if (emailInput) {
     emailInput.addEventListener('input', function () {
       resetMailingListUi();
