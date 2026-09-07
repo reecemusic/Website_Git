@@ -226,6 +226,12 @@ if (mailingListForm) {
       if (statusMessage) {
         statusMessage.classList.remove('is-error');
         statusMessage.textContent = 'Thanks, you are on the list.';
+        setTimeout(function () {
+          resetMailingListUi();
+          if (emailInput) {
+            emailInput.value = '';
+          }
+        }, 2400);
       }
     } catch (error) {
       console.error(error);
