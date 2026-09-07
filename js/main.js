@@ -170,12 +170,30 @@ const contactForm = document.getElementById('contact-form');
 const mailingListForm = document.getElementById('mailing-list-form');
 
 if (mailingListForm) {
+  const submitButton = mailingListForm.querySelector('button[type="submit"]');
+  const statusMessage = mailingListForm.querySelector('#mailing-list-status');
+  const emailInput = mailingListForm.querySelector('input[type="email"]');
+  const originalLabel = submitButton ? submitButton.textContent : 'Submit';
+
+  const resetMailingListUi = function () {
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = originalLabel;
+    }
+    if (statusMessage) {
+      statusMessage.classList.remove('is-error');
+      statusMessage.textContent = '';
+    }
+  };
+
+  if (emailInput) {
+    emailInput.addEventListener('input', function () {
+      resetMailingListUi();
+    });
+  }
+
   mailingListForm.addEventListener('submit', async function (event) {
     event.preventDefault();
-
-    const submitButton = mailingListForm.querySelector('button[type="submit"]');
-    const statusMessage = mailingListForm.querySelector('#mailing-list-status');
-    const originalLabel = submitButton ? submitButton.textContent : 'Submit';
 
     if (submitButton) {
       submitButton.disabled = true;
@@ -198,6 +216,9 @@ if (mailingListForm) {
       }
 
       mailingListForm.reset();
+      if (emailInput) {
+        emailInput.value = '';
+      }
       if (submitButton) {
         submitButton.disabled = false;
         submitButton.textContent = originalLabel;
