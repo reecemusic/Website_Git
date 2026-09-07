@@ -244,8 +244,8 @@ if (mailingListForm) {
           if (emailInput) {
             emailInput.value = '';
           }
-        }, 350);
-      }, 350);
+        }, 600);
+      }, 2200);
     } catch (error) {
       console.error(error);
       if (submitButton) {
