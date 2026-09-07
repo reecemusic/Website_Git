@@ -600,6 +600,8 @@ a {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
   letter-spacing: 0.02em;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .mailing-list-form .form-status.is-error {

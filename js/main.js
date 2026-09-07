@@ -182,6 +182,7 @@ if (mailingListForm) {
     }
     if (statusMessage) {
       statusMessage.classList.remove('is-error');
+      statusMessage.style.opacity = '0';
       statusMessage.textContent = '';
     }
   };
@@ -231,14 +232,20 @@ if (mailingListForm) {
       }
       if (statusMessage) {
         statusMessage.classList.remove('is-error');
+        statusMessage.style.opacity = '1';
         statusMessage.textContent = 'Thanks, you are on the list.';
+      }
+      window.setTimeout(function () {
+        if (statusMessage) {
+          statusMessage.style.opacity = '0';
+        }
         window.setTimeout(function () {
           resetMailingListUi();
           if (emailInput) {
             emailInput.value = '';
           }
-        }, 2200);
-      }
+        }, 250);
+      }, 1800);
     } catch (error) {
       console.error(error);
       if (submitButton) {
