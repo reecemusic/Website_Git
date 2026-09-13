@@ -530,6 +530,7 @@ a {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  grid-column: 1 / -1;
 }
 
 .mailing-list-form {
@@ -1308,14 +1309,49 @@ a {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(220px, 0.7fr);
   overflow: hidden;
+  isolation: isolate;
+}
+
+.lightbox-image-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  z-index: 1;
+  overflow: hidden;
+  isolation: isolate;
 }
 
 .lightbox-panel img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: min(72vh, 720px);
   object-fit: cover;
   display: block;
   background: var(--bg);
+}
+
+.lightbox-watermark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  font-size: 1.05rem;
+  font-weight: 1000;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(17, 13, 10, 0.72);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 9999;
+  display: inline-block;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0.85;
+  box-shadow: 0 0 0 1px rgba(17, 13, 10, 0.05);
+  mix-blend-mode: multiply;
 }
 
 .lightbox-meta {
@@ -1355,12 +1391,15 @@ a {
   border-radius: 999px;
   width: 2.5rem;
   height: 2.5rem;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   background: rgba(251, 247, 240, 0.9);
   font-size: 1.7rem;
   line-height: 1;
-  z-index: 2;
+  text-align: center;
+  z-index: 3;
 }
 
 body.lightbox-open {
@@ -1388,18 +1427,45 @@ body.lightbox-open {
     background: rgba(251, 247, 240, 0.98) !important;
     overflow: hidden !important;
     margin: 0 !important;
+    isolation: isolate;
+  }
+
+  .lightbox-image-wrap {
+    position: relative;
+    width: 100%;
+    flex: 0 0 auto;
+    height: calc(100dvh - 180px);
+    min-height: 46vh;
+    z-index: 1;
+    overflow: hidden;
+    isolation: isolate;
   }
 
   .lightbox-panel img {
+    position: relative;
+    z-index: 1;
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
     min-height: 46vh !important;
     max-height: none !important;
     object-fit: contain !important;
     object-position: center !important;
     display: block !important;
-    flex: 1 1 auto !important;
     background: #f3efe8 !important;
+  }
+
+  .lightbox-watermark {
+    left: 50%;
+    top: 50%;
+    z-index: 9999;
+    opacity: 0.85;
+    background: rgba(255, 255, 255, 0.6);
+    color: rgba(17, 13, 10, 0.72);
+    transform: translate(-50%, -50%) rotate(45deg);
+    mix-blend-mode: multiply;
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    padding: 0.35rem 0.7rem;
   }
 
   .lightbox-meta {
@@ -1652,6 +1718,13 @@ body.lightbox-open {
 .site-footer .mailing-list-label {
   margin-bottom: 0.8rem;
   color: var(--ink);
+  grid-column: 1 / -1;
+}
+
+.site-footer .mailing-list-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
 }
 
 .site-footer .mailing-list-form input {
