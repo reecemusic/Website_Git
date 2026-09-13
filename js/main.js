@@ -167,11 +167,11 @@ videoGroups.forEach(function (group) {
 });
 
 const contactForm = document.getElementById('contact-form');
-const mailingListForm = document.getElementById('mailing-list-form');
+const mailingListForms = document.querySelectorAll('.mailing-list-form');
 
-if (mailingListForm) {
+mailingListForms.forEach(function (mailingListForm) {
   const submitButton = mailingListForm.querySelector('button[type="submit"]');
-  const statusMessage = mailingListForm.querySelector('#mailing-list-status');
+  const statusMessage = mailingListForm.querySelector('.form-status');
   const emailInput = mailingListForm.querySelector('input[type="email"]');
   const originalLabel = submitButton ? submitButton.textContent : 'Submit';
 
@@ -254,11 +254,12 @@ if (mailingListForm) {
       }
       if (statusMessage) {
         statusMessage.classList.add('is-error');
+        statusMessage.style.opacity = '1';
         statusMessage.textContent = error.message || 'We could not add you right now. Please try again.';
       }
     }
   });
-}
+});
 
 if (contactForm) {
   contactForm.addEventListener('submit', async function (event) {

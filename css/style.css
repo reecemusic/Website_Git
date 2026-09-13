@@ -1179,18 +1179,6 @@ a {
     font-size: 0.95rem;
   }
 
-  .lightbox-panel {
-    grid-template-columns: 1fr;
-    width: min(92vw, 440px);
-  }
-
-  .lightbox-panel img {
-    height: 52vh;
-  }
-
-  .lightbox-meta {
-    padding: 1rem 1rem 1.25rem;
-  }
 
   .header-inner {
     min-height: 64px;
@@ -1377,6 +1365,57 @@ a {
 
 body.lightbox-open {
   overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .lightbox {
+    padding: 0 !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+  }
+
+  .lightbox-panel {
+    position: fixed !important;
+    inset: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: none !important;
+    width: 100vw !important;
+    max-width: none !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    background: rgba(251, 247, 240, 0.98) !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+  }
+
+  .lightbox-panel img {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 46vh !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    display: block !important;
+    flex: 1 1 auto !important;
+    background: #f3efe8 !important;
+  }
+
+  .lightbox-meta {
+    padding: 1rem 1rem 1.5rem !important;
+    justify-content: flex-start !important;
+    flex: 0 0 auto !important;
+  }
+
+  .lightbox-back {
+    width: 100% !important;
+  }
+
+  .lightbox-close {
+    top: 1rem !important;
+    right: 1rem !important;
+  }
 }
 
 .artwork-info {
@@ -1599,6 +1638,40 @@ body.lightbox-open {
   padding: 1.6rem 0 2.4rem;
   color: var(--muted);
   font-size: 1.2rem;
+}
+
+.footer-mailing-list {
+  margin-bottom: 1.5rem;
+}
+
+.footer-mailing-list-form {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.site-footer .mailing-list-label {
+  margin-bottom: 0.8rem;
+  color: var(--ink);
+}
+
+.site-footer .mailing-list-form input {
+  background: rgba(26, 22, 18, 0.06);
+  border-color: rgba(26, 22, 18, 0.7);
+  color: var(--ink);
+}
+
+.site-footer .mailing-list-form input::placeholder {
+  color: rgba(26, 22, 18, 0.65);
+}
+
+.site-footer .mailing-list-form .button {
+  background: #f7f2ea;
+  border-color: rgba(26, 22, 18, 0.8);
+  color: var(--ink);
+}
+
+.site-footer .mailing-list-form .form-status {
+  color: var(--ink);
 }
 
 @media (prefers-reduced-motion: reduce) {

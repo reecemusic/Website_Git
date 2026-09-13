@@ -10,7 +10,7 @@
   <meta property="og:description" content="Original artwork by Reece Williams available for purchase.">
   <meta property="og:image" content="images/art/artwork-01.jpg">
   <link rel="icon" type="image/png" href="images/reece-favicon.png">
-  <link rel="stylesheet" href="css/style.css?v=20260906-6">
+  <link rel="stylesheet" href="css/style.css?v=20260913-2">
 </head>
 <body class="interior">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -138,12 +138,23 @@
   </div>
 
   <footer class="site-footer">
+    <div class="wrap footer-mailing-list">
+      <form class="mailing-list-form footer-mailing-list-form" id="mailing-list-form-footer" action="contact.php" method="POST" aria-describedby="mailing-list-status-footer">
+        <input type="hidden" name="mailing-list" value="yes">
+        <input type="hidden" name="source" value="footer">
+        <p class="mailing-list-label">Sign up to our mailing list</p>
+        <label class="sr-only" for="mailing-list-email-footer">Email address</label>
+        <input id="mailing-list-email-footer" type="email" name="email" placeholder="Email address" autocomplete="email" required>
+        <button class="button" type="submit">Submit</button>
+        <p class="form-status" id="mailing-list-status-footer" role="status" aria-live="polite"></p>
+      </form>
+    </div>
     <div class="wrap footer-inner">
       <p>&copy; <span id="year"></span> Reece Williams. All rights reserved.</p>
       <p><a href="mailto:info@reecemusic.com">info@reecemusic.com</a></p>
     </div>
   </footer>
 
-  <script src="js/main.js?v=20260906-3"></script>
+  <script src="js/main.js?v=20260907-4"></script>
 </body>
 </html>
