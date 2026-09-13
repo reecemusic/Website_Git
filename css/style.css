@@ -734,6 +734,8 @@ a {
   min-width: 0;
   max-width: 100%;
   cursor: pointer;
+  content-visibility: auto;
+  contain-intrinsic-size: 100% 320px;
 }
 
 .artwork-item:hover {
@@ -744,6 +746,7 @@ a {
   margin: 0;
   overflow: hidden;
   height: 250px;
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -770,6 +773,8 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  background: var(--bg);
 }
 
 .about-image {
@@ -1704,6 +1709,15 @@ body.lightbox-open {
   padding: 1.6rem 0 2.4rem;
   color: var(--muted);
   font-size: 1.2rem;
+}
+
+body.home .site-footer {
+  padding-top: 0;
+  padding-bottom: 1.2rem;
+}
+
+body.home .site-footer .footer-inner {
+  padding-top: 0;
 }
 
 .footer-mailing-list {
