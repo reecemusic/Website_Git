@@ -46,9 +46,10 @@ jobs:
           chmod 600 "$HOME/.ssh/cpanel_deploy" "$HOME/.ssh/known_hosts"
 
           git archive --format=tar HEAD \
-            index.html about.html artwork.html events.html recordings.html \
-            services.html contact.html 404.html contact.php favicon.png \
-            robots.txt sitemap.xml css js images \
+            index.html sight-and-sound.html gigs.html shop.html about.html \
+            artwork.html events.html recordings.html services.html contact.html \
+            learn.html song.html purchase-complete.html 404.html \
+            contact.php midi.php favicon.png robots.txt sitemap.xml css js images data \
             | gzip \
             | ssh \
                 -i "$HOME/.ssh/cpanel_deploy" \

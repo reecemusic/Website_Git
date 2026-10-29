@@ -1,7 +1,7 @@
 name: Sync with Reece's repo
 
-# Two-way sync between this fork (deployed on Vercel) and reecemusic/Website_Git.
-# - Changes pushed here go live on Vercel at once and are copied to Reece's repo straight away.
+# Two-way sync between this fork and reecemusic/Website_Git.
+# - Changes pushed here are copied to Reece's repo straight away.
 # - Changes Reece makes in his own repo are pulled in every ~5 minutes (or press "Run workflow").
 #
 # Needs one secret in THIS fork: REECE_REPO_TOKEN = a classic personal access token from the
@@ -43,7 +43,7 @@ jobs:
           else
             git merge --no-edit -m "Sync from reecemusic/Website_Git" upstream/main
             git push origin HEAD:main
-            echo "Pulled in Reece's changes; Vercel will redeploy."
+            echo "Pulled in Reece's changes."
           fi
 
       - name: Send this fork's changes to Reece's repo

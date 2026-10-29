@@ -1,39 +1,41 @@
-## Hosting on Vercel (current)
+## Hosting on Tasjeel (cPanel)
 
-The site is static HTML served by Vercel. The contact form and mailing list run as Vercel functions in `api/`:
+The site is static HTML on Tasjeel cPanel (`/home/reecemus/public_html`), with two PHP scripts:
 
-- `api/contact.js` emails enquiries to info@reecemusic.com through the info@ mailbox.
-- `api/subscribe.js` saves signups to Supabase (`reece_subscribers`, see `database/supabase-reece.sql`) and sends a welcome email.
+- `contact.php` emails contact-form enquiries to info@reecemusic.com and saves mailing-list signups in MySQL (then sends a welcome email).
+- `midi.php` runs the MIDI store (see below).
 
-Set these in Vercel → Project → Settings → Environment Variables, then redeploy:
-
-| Name | Value |
-| --- | --- |
-| `SMTP_PASS` | Password of the info@reecemusic.com mailbox |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project Settings → API Keys → service_role / secret key |
-| `SMTP_HOST` | Optional, default `mail.reecemusic.com` |
-| `SMTP_PORT` | Optional, default `465` |
-| `SMTP_USER` | Optional, default `info@reecemusic.com` |
-
-Until those are set, the forms open a pre-filled email to info@reecemusic.com instead, so nothing is lost.
+Pushing to `main` deploys through `.github/workflows/deploy.yml` (SSH upload). It needs these repository secrets:
+`CPANEL_HOST`, `CPANEL_PORT`, `CPANEL_USER`, `CPANEL_SSH_KEY`, `CPANEL_KNOWN_HOSTS`.
+`.cpanel.yml` does the same copy if you deploy from cPanel → Git Version Control instead.
 
 Hero playlist and performance films are set in `js/config.js`.
+
+## Mailing list database
+
+1. In cPanel, create a MySQL database and user, and give the user all privileges on the database.
+2. In phpMyAdmin, run `database/schema.sql` in the new database.
+3. Copy `config.example.php` to `config.php`, fill in the database name, user and password, and the SMTP password of the
+   info@reecemusic.com mailbox (defaults: `mail.reecemusic.com`, port `465`, `ssl`).
+4. Upload `config.php` into `public_html` next to `contact.php`. It is private and excluded by `.gitignore`.
+
+Until `config.php` is in place, the forms open a pre-filled email to info@reecemusic.com instead, so nothing is lost.
+`tools/` holds local email-preview and SMTP diagnostic helpers; they are not deployed.
 
 ## MIDI store ("Play it yourself")
 
 Pages: `learn.html` (all songs), `song.html?id=…` (one song), `purchase-complete.html` (after Stripe).
-Functions: `api/midi/songs.js`, `checkout.js`, `verify.js`, `download.js`. Songs and prices: `api/_data/midi-songs.json`.
+Songs and prices: `data/midi-songs.json` (prices in cents; the `data/` folder is blocked from the web by its `.htaccess`).
 
-MIDI files live in the **private** Supabase bucket `reece-midi` (never in this public repo). Upload them in
-Supabase → Storage → reece-midi, named exactly as in `midi-songs.json` (e.g. `clocks-free.mid`, `clocks-chorus.mid`, `clocks-full.mid`).
-Buyers get a 2-minute signed link after a free click or a verified payment.
+MIDI files must never be in this public repo or in `public_html`. Upload them to the private folder set as
+`midi.files_dir` in `config.php` (default `/home/reecemus/midi-files`), named exactly as in `midi-songs.json`
+(e.g. `clocks-free.mid`, `clocks-chorus.mid`, `clocks-full.mid`). Buyers get a 24-hour download link after a verified payment.
 
-Extra Vercel environment variables for the store:
+Also set in `config.php` → `midi`:
 
-| Name | Value |
+| Key | Value |
 | --- | --- |
-| `STRIPE_SECRET_KEY` | Stripe secret key (`sk_test_…` for testing, `sk_live_…` to take real payments) |
-| `DOWNLOAD_TOKEN_SECRET` | Any long random string (32+ characters) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Same key the mailing list uses |
+| `stripe_secret_key` | Stripe secret key (`sk_test_…` for testing, `sk_live_…` to take real payments) |
+| `token_secret` | Any long random string (32+ characters) |
 
-To add a song: add an entry to `api/_data/midi-songs.json` (prices in cents) and upload its three files to the bucket.
+To add a song: add an entry to `data/midi-songs.json` and upload its three files to the private folder.

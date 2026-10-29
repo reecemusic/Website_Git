@@ -116,7 +116,7 @@
 
   var midiLists = document.querySelectorAll("[data-midi-list]");
   if (midiLists.length) {
-    fetch("/api/midi/songs", { headers: { Accept: "application/json" } })
+    fetch("/midi.php?action=songs", { headers: { Accept: "application/json" } })
       .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
       .then(function (data) {
         var songs = (data && data.songs) || [];
@@ -142,7 +142,7 @@
   function startCheckout(id, tier, btn, statusEl) {
     btn.disabled = true;
     statusEl.textContent = "Opening secure checkout…";
-    fetch("/api/midi/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: id, tier: tier }) })
+    fetch("/midi.php?action=checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: id, tier: tier }) })
       .then(function (r) { return r.json(); })
       .then(function (data) {
         if (data && data.url) { window.location.href = data.url; return; }
@@ -160,7 +160,7 @@
         '<p class="lede">That song isn\'t in the store. Browse the full list instead.</p><p><a class="btn btn-brass" href="learn.html">See all songs</a></p></div></section>';
     };
     if (!songId) notFound();
-    else fetch("/api/midi/songs?id=" + encodeURIComponent(songId))
+    else fetch("/midi.php?action=songs&id=" + encodeURIComponent(songId))
       .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
       .then(function (s) {
         document.title = s.title + " by " + s.artist + " | Play It Yourself | Reece Music";
@@ -178,7 +178,7 @@
             '<div class="song-video">' + video + "</div>" +
             '<div><ul class="tiers">' +
               '<li><div><strong>' + escapeHtml(s.tiers.free.label) + '</strong><span class="muted">A short excerpt to try</span></div><span class="tier-price">Free</span>' +
-                '<a class="btn btn-ghost" href="/api/midi/download?free=' + encodeURIComponent(s.id) + '">Download preview</a></li>' +
+                '<a class="btn btn-ghost" href="/midi.php?action=download&amp;free=' + encodeURIComponent(s.id) + '">Download preview</a></li>' +
               '<li><div><strong>' + escapeHtml(s.tiers.chorus.label) + '</strong><span class="muted">The chorus, with tutorial</span></div><span class="tier-price">' + money(s.tiers.chorus.price) + "</span>" +
                 '<button class="btn btn-ghost" type="button" data-tier="chorus">Buy chorus</button></li>' +
               '<li class="is-featured"><div><strong>' + escapeHtml(s.tiers.full.label) + '</strong><span class="muted">The whole song, with tutorial</span></div><span class="tier-price">' + money(s.tiers.full.price) + "</span>" +
@@ -205,7 +205,7 @@
         '<a class="btn btn-ghost" href="learn.html">Back to the songs</a></div>';
     };
     if (!sid) fail("This page needs a payment reference. If you've paid, email info@reecemusic.com with your receipt.");
-    else fetch("/api/midi/verify?session_id=" + encodeURIComponent(sid))
+    else fetch("/midi.php?action=verify&session_id=" + encodeURIComponent(sid))
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (x) {
         if (!x.ok) return fail((x.d && x.d.error) || "Something went wrong.");
